@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+	<metadata>
+		<id>shuttle-core-infrastructure-log4net</id>
+		<version>{semver}</version>
+		<authors>Eben Roux</authors>
+		<owners>Eben Roux</owners>
+		<licenseUrl>https://github.com/shuttle/shuttle-core-infrastructure-log4net/raw/master/LICENSE</licenseUrl>
+		<projectUrl>https://github.com/shuttle/shuttle-core-infrastructure-log4net</projectUrl>
+		<iconUrl>https://raw.githubusercontent.com/Shuttle/shuttle-core-infrastructure-log4net/master/.media/logo.png</iconUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>Log4Net ILog implementation.</description>
+		<releaseNotes/>
+		<copyright>Copyright (c) 2011-{year}, Eben Roux</copyright>
+		<tags>shuttle shuttle-core logging log4net</tags>
+		<dependencies>
+			<dependency id="shuttle-core-infrastructure" version="[{shuttle-core-infrastructure-version}]" />
+			<dependency id="log4net" version="{log4net-version}" />
+		</dependencies>
+	</metadata>
+</package>
