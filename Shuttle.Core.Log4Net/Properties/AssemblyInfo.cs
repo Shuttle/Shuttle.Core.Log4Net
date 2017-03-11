@@ -25,10 +25,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Shuttle.Core.Log4Net for .NET Framework 4.6.1")]
 #endif
 
-[assembly: AssemblyVersion("3.2.12.0")]
+[assembly: AssemblyVersion("3.2.14.0")]
 [assembly: AssemblyCopyright("Copyright © Eben Roux 2017")]
 [assembly: AssemblyProduct("Shuttle.Core")]
 [assembly: AssemblyCompany("Shuttle")]
 [assembly: AssemblyConfiguration("Release")]
-[assembly: AssemblyInformationalVersion("3.2.12")]
+[assembly: AssemblyInformationalVersion("3.2.14")]
 [assembly: ComVisible(false)]
