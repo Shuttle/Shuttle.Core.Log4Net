@@ -20,6 +20,8 @@ The .NET Core 1.3 implementation provided by Log4Net does not make use of the ap
 Log.Assign(new Log4NetLog(LogManager.GetLogger(typeof(Program), new FileInfo("log4net.config"))));
 ```
 
+When assigning the logger *always* use the `Log4NetLog` with the `FileInfo` overload to perform the configuration; else nothing will log.
+
 # Configuration
 
 For .NET Core you'll need to use a custom configuration file (not the application configuration file).
