@@ -2,6 +2,7 @@
 [Bb]in/
 [Oo]bj/
 [Dd]eployment
+.vs
 
 # mstest test results
 TestResults

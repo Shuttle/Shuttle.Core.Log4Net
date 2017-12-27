@@ -1,28 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{074FD9C9-8372-4D26-95CA-51ED1568B9B0}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D8B3EDBB-3069-4EAA-821B-B1AD8F454596}"
-	ProjectSection(SolutionItems) = preProject
-		LICENSE = LICENSE
-		README.md = README.md
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{8C1E8E2A-CFC6-419A-9555-FA632471850F}"
-	ProjectSection(SolutionItems) = preProject
-		.build\package.msbuild = .build\package.msbuild
-		.build\package.nuspec = .build\package.nuspec
-		.build\Shuttle.Core.MSBuild.dll = .build\Shuttle.Core.MSBuild.dll
-		.build\Shuttle.Core.MSBuild.targets = .build\Shuttle.Core.MSBuild.targets
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shuttle.Core.Log4Net", "Shuttle.Core.Log4Net\Shuttle.Core.Log4Net.csproj", "{18F30F5C-8F8E-45F1-8934-E8E5FC2C5C7A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shuttle.Core.Log4Net", "Shuttle.Core.Log4Net\Shuttle.Core.Log4Net.csproj", "{5BC6FB62-38ED-4ECB-8404-15BFEA7D4569}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,12 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{18F30F5C-8F8E-45F1-8934-E8E5FC2C5C7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{18F30F5C-8F8E-45F1-8934-E8E5FC2C5C7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{18F30F5C-8F8E-45F1-8934-E8E5FC2C5C7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{18F30F5C-8F8E-45F1-8934-E8E5FC2C5C7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BC6FB62-38ED-4ECB-8404-15BFEA7D4569}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BC6FB62-38ED-4ECB-8404-15BFEA7D4569}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BC6FB62-38ED-4ECB-8404-15BFEA7D4569}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BC6FB62-38ED-4ECB-8404-15BFEA7D4569}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {26ADB97A-B518-4536-8326-7CB26D1A076B}
 	EndGlobalSection
 EndGlobal

@@ -1,150 +1,172 @@
 using System;
+#if (NETCOREAPP2_0 || NETSTANDARD2_0)
+using System.IO;
+using System.Reflection;
+#endif
 using log4net;
 using log4net.Config;
 using log4net.Core;
-using Shuttle.Core.Infrastructure;
+using Shuttle.Core.Contract;
+using Shuttle.Core.Logging;
+using ILog = log4net.ILog;
 
 namespace Shuttle.Core.Log4Net
 {
-	public class Log4NetLog : AbstractLog
-	{
-		private static bool _initialize = true;
-		private static readonly object _padlock = new object();
+    public class Log4NetLog : AbstractLog
+    {
+#if (!NETCOREAPP2_0 && !NETSTANDARD2_0)
+        private static bool _initialize = true;
+#endif
+        private static readonly object Lock = new object();
 
-		private readonly log4net.ILog _log;
-		private readonly bool _configure;
+        private ILog _log;
 
-		public Log4NetLog(log4net.ILog logger) : this(logger, true)
-		{
-		}
+#if (!NETCOREAPP2_0 && !NETSTANDARD2_0)
+        public Log4NetLog(ILog logger) : this(logger, true)
+        {
+        }
 
-		public Log4NetLog(log4net.ILog logger, bool configure)
-		{
-			_configure = configure;
+        public Log4NetLog(ILog logger, bool configure)
+        {
+            lock (Lock)
+            {
+                if (_initialize && configure)
+                {
+                    XmlConfigurator.Configure();
 
-			lock (_padlock)
-			{
-				if (_initialize && configure)
-				{
-					XmlConfigurator.Configure();
+                    _initialize = false;
+                }
+            }
 
-					_initialize = false;
-				}
-			}
+            ConfigureLogger(logger);
+        }
+#else
+        public Log4NetLog(ILog logger)
+        {
+            ConfigureLogger(logger);
+        }
 
-			LogLevel = LogLevel.Off;
+        public Log4NetLog(ILog logger, FileInfo fileInfo)
+        {
+            Guard.AgainstNull(fileInfo, nameof(fileInfo));
 
-			_log = logger;
+            XmlConfigurator.Configure(LogManager.GetRepository(Assembly.GetEntryAssembly()), fileInfo);
 
-			if (logger.Logger.IsEnabledFor(Level.Verbose))
-			{
-				LogLevel = LogLevel.Verbose;
-			}
-			else if (logger.Logger.IsEnabledFor(Level.Trace))
-			{
-				LogLevel = LogLevel.Trace;
-			}
-			else if (logger.Logger.IsEnabledFor(Level.Debug))
-			{
-				LogLevel = LogLevel.Debug;
-			}
-			else if (logger.Logger.IsEnabledFor(Level.Info))
-			{
-				LogLevel = LogLevel.Information;
-			}
-			else if (logger.Logger.IsEnabledFor(Level.Warn))
-			{
-				LogLevel = LogLevel.Warning;
-			}
-			else if (logger.Logger.IsEnabledFor(Level.Error))
-			{
-				LogLevel = LogLevel.Error;
-			}
-			else if (logger.Logger.IsEnabledFor(Level.Fatal))
-			{
-				LogLevel = LogLevel.Fatal;
-			}
-		}
+            ConfigureLogger(logger);
+        }
+#endif
 
-		public override void Verbose(string message)
-		{
-			if (_log.Logger.IsEnabledFor(Level.Verbose))
-			{
-				_log.Debug(string.Format("VERBOSE: {0}", message));
-			}
-		}
+        private void ConfigureLogger(ILog logger)
+        {
+            Guard.AgainstNull(logger, nameof(logger));
 
-		public override void Trace(string message)
-		{
-			if (_log.Logger.IsEnabledFor(Level.Trace))
-			{
-				_log.Debug(string.Format("TRACE: {0}", message));
-			}
-		}
+            LogLevel = LogLevel.Off;
 
-		public override void Debug(string message)
-		{
-			_log.Debug(message);
-		}
+            _log = logger;
 
-		public override void Warning(string message)
-		{
-			_log.Warn(message);
-		}
+            if (logger.Logger.IsEnabledFor(Level.Verbose))
+            {
+                LogLevel = LogLevel.Verbose;
+            }
+            else if (logger.Logger.IsEnabledFor(Level.Trace))
+            {
+                LogLevel = LogLevel.Trace;
+            }
+            else if (logger.Logger.IsEnabledFor(Level.Debug))
+            {
+                LogLevel = LogLevel.Debug;
+            }
+            else if (logger.Logger.IsEnabledFor(Level.Info))
+            {
+                LogLevel = LogLevel.Information;
+            }
+            else if (logger.Logger.IsEnabledFor(Level.Warn))
+            {
+                LogLevel = LogLevel.Warning;
+            }
+            else if (logger.Logger.IsEnabledFor(Level.Error))
+            {
+                LogLevel = LogLevel.Error;
+            }
+            else if (logger.Logger.IsEnabledFor(Level.Fatal))
+            {
+                LogLevel = LogLevel.Fatal;
+            }
+        }
 
-		public override void Information(string message)
-		{
-			_log.Info(message);
-		}
+        public override bool IsTraceEnabled => _log.Logger.IsEnabledFor(Level.Trace);
 
-		public override void Error(string message)
-		{
-			_log.Error(message);
-		}
+        public override bool IsDebugEnabled => _log.IsDebugEnabled;
 
-		public override void Fatal(string message)
-		{
-			_log.Fatal(message);
-		}
+        public override bool IsInformationEnabled => _log.IsInfoEnabled;
 
-		public override Infrastructure.ILog For(Type type)
-		{
-			return new Log4NetLog(LogManager.GetLogger(type), _configure);
-		}
+        public override bool IsWarningEnabled => _log.IsWarnEnabled;
 
-		public override Infrastructure.ILog For(object instance)
-		{
-			return new Log4NetLog(LogManager.GetLogger(instance.GetType()), _configure);
-		}
+        public override bool IsErrorEnabled => _log.IsErrorEnabled;
 
-		public override bool IsTraceEnabled
-		{
-			get { return _log.Logger.IsEnabledFor(Level.Trace); }
-		}
+        public override bool IsFatalEnabled => _log.IsFatalEnabled;
 
-		public override bool IsDebugEnabled
-		{
-			get { return _log.IsDebugEnabled; }
-		}
+        public override void Verbose(string message)
+        {
+            if (_log.Logger.IsEnabledFor(Level.Verbose))
+            {
+                _log.Debug($"VERBOSE: {message}");
+            }
+        }
 
-		public override bool IsInformationEnabled
-		{
-			get { return _log.IsInfoEnabled; }
-		}
+        public override void Trace(string message)
+        {
+            if (_log.Logger.IsEnabledFor(Level.Trace))
+            {
+                _log.Debug($"TRACE: {message}");
+            }
+        }
 
-		public override bool IsWarningEnabled
-		{
-			get { return _log.IsWarnEnabled; }
-		}
+        public override void Debug(string message)
+        {
+            _log.Debug(message);
+        }
 
-		public override bool IsErrorEnabled
-		{
-			get { return _log.IsErrorEnabled; }
-		}
+        public override void Warning(string message)
+        {
+            _log.Warn(message);
+        }
 
-		public override bool IsFatalEnabled
-		{
-			get { return _log.IsFatalEnabled; }
-		}
-	}
+        public override void Information(string message)
+        {
+            _log.Info(message);
+        }
+
+        public override void Error(string message)
+        {
+            _log.Error(message);
+        }
+
+        public override void Fatal(string message)
+        {
+            _log.Fatal(message);
+        }
+
+        public override Logging.ILog For(Type type)
+        {
+            Guard.AgainstNull(type, nameof(type));
+
+#if (!NETCOREAPP2_0 && !NETSTANDARD2_0)
+            return new Log4NetLog(LogManager.GetLogger(type), false);
+#else
+            return new Log4NetLog(LogManager.GetLogger(type));
+#endif
+        }
+
+        public override Logging.ILog For(object instance)
+        {
+            Guard.AgainstNull(instance, nameof(instance));
+
+#if (!NETCOREAPP2_0 && !NETSTANDARD2_0)
+            return new Log4NetLog(LogManager.GetLogger(instance.GetType()), false);
+#else
+            return new Log4NetLog(LogManager.GetLogger(instance.GetType()));
+#endif
+        }
+    }
 }
