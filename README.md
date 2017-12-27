@@ -1,17 +1,26 @@
-Shuttle.Core.Log4Net
-====================
+# Shuttle.Core.Log4Net
 
-Log4Net `ILog` implementation used by the `Log` class in the `Shuttle.Core` assembly.
+Log4Net `ILog` implementation used by the `Log` class in the `Shuttle.Core.Logging` assembly.
 
 # Usage
 
 Add a reference to the `Shuttle.Core.Log4Net` package and then assign a new `Log4NetLog` to the `Log` as follows:
 
+## .NET
+
 ``` c#
-Log.Assign(new Log4NetLog(LogManager.GetLogger(typeof(Host))));
+Log.Assign(new Log4NetLog(LogManager.GetLogger(typeof(Program))));
+```
+
+## .NET Core
+
+``` c#
+Log.Assign(new Log4NetLog(LogManager.GetLogger(typeof(Program), new FileInfo("log4net.config"))));
 ```
 
 # Configuration
+
+For .NET Core you'll need to use a custom configuration file (not the application configuration file).
 
 Since this implementation wraps the `Log4Net` log you would use the `Log4Net` [configuration options](https://logging.apache.org/log4net/release/manual/configuration.html).
 
