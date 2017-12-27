@@ -14,6 +14,8 @@ Log.Assign(new Log4NetLog(LogManager.GetLogger(typeof(Program))));
 
 ## .NET Core
 
+The .NET Core 1.3 implementation provided by Log4Net does not make use of the application configuration file as it only appeared again in .NET Core 2.0.  A custom configuration file has to be used in the meantime.
+
 ``` c#
 Log.Assign(new Log4NetLog(LogManager.GetLogger(typeof(Program), new FileInfo("log4net.config"))));
 ```
