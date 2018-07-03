@@ -1,5 +1,5 @@
 using System;
-#if (NETCOREAPP2_0 || NETSTANDARD2_0)
+#if (NETCOREAPP2_0 || NETCOREAPP2_1 || NETSTANDARD2_0)
 using System.IO;
 using System.Reflection;
 #endif
@@ -14,14 +14,14 @@ namespace Shuttle.Core.Log4Net
 {
     public class Log4NetLog : AbstractLog
     {
-#if (!NETCOREAPP2_0 && !NETSTANDARD2_0)
+#if (!NETCOREAPP2_0 && !NETCOREAPP2_1 && !NETSTANDARD2_0)
         private static bool _initialize = true;
 #endif
         private static readonly object Lock = new object();
 
         private ILog _log;
 
-#if (!NETCOREAPP2_0 && !NETSTANDARD2_0)
+#if (!NETCOREAPP2_0 && !NETCOREAPP2_1 && !NETSTANDARD2_0)
         public Log4NetLog(ILog logger) : this(logger, true)
         {
         }
@@ -151,7 +151,7 @@ namespace Shuttle.Core.Log4Net
         {
             Guard.AgainstNull(type, nameof(type));
 
-#if (!NETCOREAPP2_0 && !NETSTANDARD2_0)
+#if (!NETCOREAPP2_0 && !NETCOREAPP2_1 && !NETSTANDARD2_0)
             return new Log4NetLog(LogManager.GetLogger(type), false);
 #else
             return new Log4NetLog(LogManager.GetLogger(type));
@@ -162,7 +162,7 @@ namespace Shuttle.Core.Log4Net
         {
             Guard.AgainstNull(instance, nameof(instance));
 
-#if (!NETCOREAPP2_0 && !NETSTANDARD2_0)
+#if (!NETCOREAPP2_0 && !NETCOREAPP2_1 && !NETSTANDARD2_0)
             return new Log4NetLog(LogManager.GetLogger(instance.GetType()), false);
 #else
             return new Log4NetLog(LogManager.GetLogger(instance.GetType()));
