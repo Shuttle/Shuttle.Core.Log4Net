@@ -33,10 +33,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle(".NET Standard 2.0")]
 #endif
 
-[assembly: AssemblyVersion("10.0.1.0")]
-[assembly: AssemblyCopyright("Copyright © Eben Roux 2017")]
+[assembly: AssemblyVersion("10.0.2.0")]
+[assembly: AssemblyCopyright("Copyright © Eben Roux 2019")]
 [assembly: AssemblyProduct("Shuttle.Core.Log4Net")]
 [assembly: AssemblyCompany("Shuttle")]
 [assembly: AssemblyConfiguration("Release")]
-[assembly: AssemblyInformationalVersion("10.0.1")]
+[assembly: AssemblyInformationalVersion("10.0.2")]
 [assembly: ComVisible(false)]

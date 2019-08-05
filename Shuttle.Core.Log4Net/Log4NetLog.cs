@@ -1,8 +1,6 @@
 using System;
-#if (NETCOREAPP2_0 || NETCOREAPP2_1 || NETSTANDARD2_0)
 using System.IO;
 using System.Reflection;
-#endif
 using log4net;
 using log4net.Config;
 using log4net.Core;
@@ -14,18 +12,12 @@ namespace Shuttle.Core.Log4Net
 {
     public class Log4NetLog : AbstractLog
     {
-#if (!NETCOREAPP2_0 && !NETCOREAPP2_1 && !NETSTANDARD2_0)
         private static bool _initialize = true;
-#endif
         private static readonly object Lock = new object();
 
         private ILog _log;
 
-#if (!NETCOREAPP2_0 && !NETCOREAPP2_1 && !NETSTANDARD2_0)
-        public Log4NetLog(ILog logger) : this(logger, true)
-        {
-        }
-
+#if (!NETCOREAPP && !NETSTANDARD)
         public Log4NetLog(ILog logger, bool configure)
         {
             lock (Lock)
@@ -40,7 +32,7 @@ namespace Shuttle.Core.Log4Net
 
             ConfigureLogger(logger);
         }
-#else
+#endif
         public Log4NetLog(ILog logger)
         {
             ConfigureLogger(logger);
@@ -50,11 +42,18 @@ namespace Shuttle.Core.Log4Net
         {
             Guard.AgainstNull(fileInfo, nameof(fileInfo));
 
-            XmlConfigurator.Configure(LogManager.GetRepository(Assembly.GetEntryAssembly()), fileInfo);
+            lock (Lock)
+            {
+                if (_initialize)
+                {
+                    XmlConfigurator.Configure(LogManager.GetRepository(Assembly.GetEntryAssembly()), fileInfo);
+
+                    _initialize = false;
+                }
+            }
 
             ConfigureLogger(logger);
         }
-#endif
 
         private void ConfigureLogger(ILog logger)
         {
