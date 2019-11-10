@@ -7,7 +7,7 @@
     <owners>Eben Roux</owners>
     <license type="expression">BSD-3-Clause</license>
     <projectUrl>https://github.com/shuttle/Shuttle.Core.Log4Net</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/Shuttle/Shuttle.Core.Log4Net/master/.media/logo.png</iconUrl>
+    <icon>images\logo.png</icon>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Log4Net ILog implementation.</description>
     <releaseNotes/>
@@ -18,4 +18,7 @@
       <dependency id="log4net" version="{log4net-version}" />
     </dependencies>
   </metadata>
+  <files>
+    <file src="..\..\..\..\.media\logo.png" target="images\" />
+  </files>
 </package>
