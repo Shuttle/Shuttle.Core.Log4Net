@@ -20,5 +20,6 @@
   </metadata>
   <files>
     <file src="..\..\..\..\.media\logo.png" target="images\" />
+	<file src="lib\**\*.*" target="lib" />
   </files>
 </package>
