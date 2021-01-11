@@ -17,7 +17,6 @@ namespace Shuttle.Core.Log4Net
 
         private ILog _log;
 
-#if (!NETCOREAPP && !NETSTANDARD)
         public Log4NetLog(ILog logger)
             : this(logger, true)
         {
@@ -38,12 +37,6 @@ namespace Shuttle.Core.Log4Net
 
             ConfigureLogger(logger);
         }
-#else
-        public Log4NetLog(ILog logger)
-        {
-            ConfigureLogger(logger);
-        }
-#endif
 
         public Log4NetLog(ILog logger, FileInfo fileInfo)
         {
